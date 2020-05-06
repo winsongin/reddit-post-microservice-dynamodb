@@ -1,20 +1,17 @@
 #!/bin/sh
 
-# POST request while without the optional URL
+# POST requests without the optional URL
 curl \
     --header "Content-Type: application/json" \
     --request POST \
     --data '{"postID":"0", "title":"Testing1", "text":"This is Testing1", "community":"CSUF", "username":"User1"}' \
     http://localhost:5000/api/v1.0/resources/collections
 
-# POST request with the optional URL included
 curl \
     --header "Content-Type: application/json" \
     --request POST \
-    --data '{"postID":"1", "title":"Testing2", "text":"This is Testing2", "community":"CompSci", "url":"http://fullerton.edu", "username":"User2"}' \
+    --data '{"postID":"1", "title":"Testing2", "text":"This is Testing2", "community":"CompSci", "username":"User2"}' \
     http://localhost:5000/api/v1.0/resources/collections
-
-# The rest are all POST requests without the optional URL
 
 curl \
     --header "Content-Type: application/json" \
@@ -25,7 +22,7 @@ curl \
 curl \
     --header "Content-Type: application/json" \
     --request POST \
-    --data '{"postID":3", "title":"Testing4", "text":"This is Testing4", "community":"CSUF", "username":"User4"}' \
+    --data '{"postID":"3", "title":"Testing4", "text":"This is Testing4", "community":"CSUF", "username":"User4"}' \
     http://localhost:5000/api/v1.0/resources/collections
 
 curl \
@@ -152,6 +149,14 @@ curl \
     --header "Content-Type: application/json" \
     --request POST \
     --data '{"postID":"24", "title":"Testing25", "text":"This is Testing25", "community":"CSUF", "username":"User25"}' \
+    http://localhost:5000/api/v1.0/resources/collections
+
+# POST request with the optional URL
+
+curl \
+    --header "Content-Type: application/json" \
+    --request POST \
+    --data '{"postID":"25", "title":"Testing26", "text":"This is Testing26", "community":"CSUF", "url":"http://fullerton.edu", "username":"User26"}' \
     http://localhost:5000/api/v1.0/resources/collections
 
 # GET request that retrieves an existing post using the postID and community as arguments
