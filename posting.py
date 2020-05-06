@@ -97,6 +97,7 @@ def retrieve_post():
 
         try:
             response = dynamo.tables["posts"].get_item(
+                ProjectionExpression = "title, community, date_time, username",
                 Key = {
                     "postID": postID,
                     "community": community
@@ -175,11 +176,17 @@ def retrieve_all_posts():
     )
     
     items = response["Items"]
-    return jsonify(items)
 
-    if len(items) < int(amount):
+    if len(items) == 0: 
+        result = abort(404, description="Resource not found")
+        return result
+
+    elif len(items) < int(amount):
         result = abort(404, description="Resource not found")
         return jsonify(result)
+
+    else: 
+        return jsonify(items)
 
 if __name__ == '__main__':
     app.run(debug=True)
