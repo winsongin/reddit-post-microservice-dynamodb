@@ -86,7 +86,7 @@ def create_post():
     
     return jsonify(result), 201, {'location': location}
 
-# GET or DELETE post based on community and timestamp
+# GET or DELETE post based on community and postID
 @app.route('/api/v1.0/resources/collections', methods=['GET', 'DELETE'])
 def retrieve_post():
     postID = request.args.get('postID')
@@ -161,8 +161,8 @@ def retrieve_community_posts():
         result = abort(404, description="Resource not found")
         return jsonify(result)
 
-
-    return jsonify(items)
+    else: 
+        return jsonify(items)
 
 # Retrieve the n most recent posts from any community
 @app.route('/api/v1.0/resources/collections/any', methods=['GET'])
