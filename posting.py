@@ -155,11 +155,11 @@ def retrieve_community_posts():
 
     if len(items) == 0: 
         result = abort(404, description="Resource not found")
-        return result
+        return jsonify(result)
 
     elif len(items) < int(amount): 
         result = abort(404, description="Resource not found")
-        return result
+        return jsonify(result)
 
 
     return jsonify(items)
@@ -172,14 +172,14 @@ def retrieve_all_posts():
     
     response = dynamo.tables["posts"].scan(
         ProjectionExpression = "title, community, date_time, username",
-        FilterExpression = Key("postID").between(str(0), str(amount)),
+        FilterExpression = Key("postID").between(str(0), str(amount))
     )
     
     items = response["Items"]
 
     if len(items) == 0: 
         result = abort(404, description="Resource not found")
-        return result
+        return jsonify(result)
 
     elif len(items) < int(amount):
         result = abort(404, description="Resource not found")
