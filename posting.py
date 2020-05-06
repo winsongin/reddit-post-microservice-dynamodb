@@ -13,7 +13,7 @@ app.config['DYNAMO_TABLES'] = [
     dict(
         TableName='posts',
         KeySchema=[dict(AttributeName='community', KeyType='HASH'), dict(AttributeName='postID', KeyType='RANGE')],
-        AttributeDefinitions=[dict(AttributeName='community', AttributeType='S'), dict(AttributeName='postID', AttributeType='N')],
+        AttributeDefinitions=[dict(AttributeName='community', AttributeType='S'), dict(AttributeName='postID', AttributeType='S')],
         ProvisionedThroughput=dict(ReadCapacityUnits=5, WriteCapacityUnits=5)
     )
 ]
@@ -55,7 +55,7 @@ def create_post():
         dynamo.tables["posts"].put_item(
             Item = {
                 "community": community,
-                "postID": int(postID),
+                "postID": str(postID),
                 "title": title, 
                 "date_time": currentDateTime, 
                 "text": text, 
@@ -72,7 +72,7 @@ def create_post():
         dynamo.tables["posts"].put_item(
             Item = {
                 "community": community,
-                "postID": int(postID),
+                "postID": str(postID),
                 "title": title, 
                 "date_time": currentDateTime, 
                 "text": text, 
@@ -99,7 +99,7 @@ def retrieve_post():
             response = dynamo.tables["posts"].get_item(
                 ProjectionExpression = "title, community, date_time, username",
                 Key = {
-                    "postID": int(postID),
+                    "postID": str(postID),
                     "community": community
                 }
             )
@@ -117,7 +117,7 @@ def retrieve_post():
         try:
             response = dynamo.tables["posts"].get_item(
                 Key = {
-                    "postID": int(postID),
+                    "postID": str(postID),
                     "community": community
                 }
             )
@@ -127,7 +127,7 @@ def retrieve_post():
             if len(item) != 0:
                 dynamo.tables["posts"].delete_item(
                     Key = {
-                        "postID": int(postID),
+                        "postID": str(postID),
                         "community": community
                     }
                 )
@@ -168,11 +168,11 @@ def retrieve_community_posts():
 @app.route('/api/v1.0/resources/collections/any', methods=['GET'])
 def retrieve_all_posts():
     amount = request.args.get('amount')
-    # amount = int(amount)-1
+    amount = int(amount)-1
     
     response = dynamo.tables["posts"].scan(
         ProjectionExpression = "title, community, date_time, username",
-        FilterExpression = Key("postID").between(0, int(amount))
+        FilterExpression = Key("postID").between(str(0), str(amount))
     )
     
     items = response["Items"]
